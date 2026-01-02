@@ -5,7 +5,6 @@ backend:
   site_domain: t.aniv.cn
   base_url: https://t.aniv.cn
   auth_endpoint: oauth
-  api_root: https://t.aniv.cn/github-proxy  # 使用代理访问 GitHub API
 
 # 语言设置
 locale: "zh_Hans"
