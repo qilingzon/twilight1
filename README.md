@@ -1,6 +1,6 @@
 <div align = "center">
 
-# Twilight
+# Twilight1
 
 A CMS integrated static blog template built with [Astro](https://astro.build) framework.
 
