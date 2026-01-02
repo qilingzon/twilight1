@@ -2,10 +2,10 @@ backend:
   name: github
   repo: qilingzon/twilight1
   branch: main
-  site_domain: t.aniv.cn
-  base_url: https://t.aniv.cn
+  site_domain: t1.aniv.cn
+  base_url: https://t1.aniv.cn
   auth_endpoint: oauth
-  api_root: https://t.aniv.cn/github-proxy
+  api_root: https://t1.aniv.cn/github-proxy
 
 # 语言设置
 locale: "zh_Hans"
