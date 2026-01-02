@@ -1,21 +1,21 @@
 /**
- * Cloudflare Pages Function - GitHub API 代理
+ * Astro API 路由 - GitHub API 代理
  * 路径: /github-proxy/*
  * 用于代理 api.github.com 请求，解决网络访问问题
  */
 
+import type { APIRoute } from 'astro';
+
 const GITHUB_API = 'https://api.github.com';
 
-export async function onRequest(context) {
-  const { request, params } = context;
-
+export const ALL: APIRoute = async ({ request, params }) => {
   // 处理 CORS 预检请求
   if (request.method === 'OPTIONS') {
     return handleCORS(request);
   }
 
   // 获取路径参数
-  const path = params.path ? '/' + params.path.join('/') : '';
+  const path = params.path ? '/' + params.path : '';
   const url = new URL(request.url);
 
   // 构建 GitHub API URL
@@ -24,11 +24,13 @@ export async function onRequest(context) {
   // 复制请求头
   const headers = new Headers();
   for (const [key, value] of request.headers) {
+    const lowerKey = key.toLowerCase();
     if (
-      !key.startsWith('cf-') &&
-      key !== 'host' &&
-      key !== 'x-forwarded-for' &&
-      key !== 'x-real-ip'
+      !lowerKey.startsWith('cf-') &&
+      lowerKey !== 'host' &&
+      lowerKey !== 'x-forwarded-for' &&
+      lowerKey !== 'x-real-ip' &&
+      lowerKey !== 'connection'
     ) {
       headers.set(key, value);
     }
@@ -54,6 +56,8 @@ export async function onRequest(context) {
     const origin = request.headers.get('Origin');
     responseHeaders.set('Access-Control-Allow-Origin', origin || '*');
     responseHeaders.set('Access-Control-Allow-Credentials', 'true');
+    // 移除可能导致问题的头
+    responseHeaders.delete('content-encoding');
 
     return new Response(response.body, {
       status: response.status,
@@ -61,7 +65,8 @@ export async function onRequest(context) {
       headers: responseHeaders,
     });
   } catch (error) {
-    return new Response(JSON.stringify({ error: error.message }), {
+    const message = error instanceof Error ? error.message : 'Unknown error';
+    return new Response(JSON.stringify({ error: message }), {
       status: 500,
       headers: {
         'Content-Type': 'application/json',
@@ -69,9 +74,9 @@ export async function onRequest(context) {
       },
     });
   }
-}
+};
 
-function handleCORS(request) {
+function handleCORS(request: Request): Response {
   return new Response(null, {
     status: 204,
     headers: {
@@ -83,3 +88,10 @@ function handleCORS(request) {
     },
   });
 }
+
+// 导出所有 HTTP 方法
+export const GET = ALL;
+export const POST = ALL;
+export const PUT = ALL;
+export const DELETE = ALL;
+export const PATCH = ALL;
