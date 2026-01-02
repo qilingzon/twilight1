@@ -2,8 +2,8 @@ backend:
   name: github
   repo: qilingzon/twilight1
   branch: main
-  site_domain: t1.aniv.cn
-  base_url: https://t1.aniv.cn
+  site_domain: t.aniv.cn
+  base_url: https://t.aniv.cn
   auth_endpoint: oauth
 
 # 语言设置
