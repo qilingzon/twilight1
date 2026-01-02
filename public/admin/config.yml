@@ -1,9 +1,9 @@
 backend:
   name: github
-  repo: qilingzon/Twilight
+  repo: qilingzon/twilight1
   branch: main
-  site_domain: blog1.aniv.cn
-  base_url: https://blog1.aniv.cn
+  site_domain: t1.aniv.cn
+  base_url: https://t1.aniv.cn
   auth_endpoint: oauth
 
 # 语言设置
