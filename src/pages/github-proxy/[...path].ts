@@ -6,6 +6,9 @@
 
 import type { APIRoute } from 'astro';
 
+// 禁用静态预渲染，使用服务端渲染
+export const prerender = false;
+
 const GITHUB_API = 'https://api.github.com';
 
 export const ALL: APIRoute = async ({ request, params }) => {
